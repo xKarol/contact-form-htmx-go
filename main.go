@@ -2,12 +2,14 @@ package main
 
 import (
 	"app/routes"
+	"app/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	utils.LoadEnv()
 	router := gin.Default()
 	router.LoadHTMLFiles("index.html")
 
