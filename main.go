@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,8 +17,17 @@ func main() {
 		})
 	})
 
+	router.POST("/contact", func(c *gin.Context) {
+		fields := []string{"email", "firstName", "lastName", "message"}
+
+		for _, field := range fields {
+			fmt.Println(c.Request.FormValue(field))
+		}
+		c.Status(http.StatusOK)
+	})
+
 	router.GET("/health-check", func(c *gin.Context) {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"message": "OK",
 		})
 	})

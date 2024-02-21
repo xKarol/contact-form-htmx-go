@@ -11,6 +11,31 @@
     ></script>
   </head>
   <body>
-    Hello World!
+    <form id="contact-form" hx-post="/contact" hx-swap="none">
+      <input
+        type="text"
+        name="firstName"
+        placeholder="Enter your first name"
+        required
+      />
+      <input
+        type="text"
+        name="lastName"
+        placeholder="Enter your last name"
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        required
+      />
+      <textarea
+        name="message"
+        placeholder="Enter your message"
+        required
+      ></textarea>
+      <button type="submit">Submit</button>
+    </form>
   </body>
 </html>
