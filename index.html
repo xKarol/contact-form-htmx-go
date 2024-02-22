@@ -9,6 +9,17 @@
       integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
       crossorigin="anonymous"
     ></script>
+    <style>
+      .htmx-indicator {
+        display: none;
+      }
+      .htmx-request .htmx-indicator {
+        display: inline;
+      }
+      .htmx-request.htmx-indicator {
+        display: inline;
+      }
+    </style>
   </head>
   <body>
     <form id="contact-form" hx-post="/contact" hx-swap="none">
@@ -35,7 +46,10 @@
         placeholder="Enter your message"
         required
       ></textarea>
-      <button type="submit">Submit</button>
+      <button type="submit">
+        <span>Submit</span>
+        <span class="htmx-indicator">...</span>
+      </button>
     </form>
   </body>
 </html>
