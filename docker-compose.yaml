@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  sendgrid-mock:
+    image: ghashange/sendgrid-mock:1.9.0
+    ports:
+      - 3030:3000
+    environment:
+      API_KEY: sendgrid-api-key
