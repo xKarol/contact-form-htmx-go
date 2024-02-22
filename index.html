@@ -22,7 +22,12 @@
     </style>
   </head>
   <body>
-    <form id="contact-form" hx-post="/contact" hx-swap="none">
+    <form
+      id="contact-form"
+      hx-post="/contact"
+      hx-swap="none"
+      hx-on::after-request="this.reset()"
+    >
       <input
         type="text"
         name="firstName"
