@@ -43,7 +43,7 @@ templ ContactForm() {
 			placeholder="Enter your message"
 			required
 		></textarea>
-		@components.Button() {
+		@components.Button(templ.Attributes{"type": "submit"}) {
 			<span class="htmx-indicator loading loading-spinner"></span>
 			Submit
 		}
