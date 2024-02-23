@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"app/internal/templates/pages"
-	"net/http"
 
 	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
@@ -15,12 +14,7 @@ func Init(router *gin.Engine) {
 	})
 
 	apiGroup := router.Group("/api")
-
-	apiGroup.POST("/health-check", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "OK",
-		})
-	})
+	apiGroup.POST("/health-check", HealthCheck)
 	apiGroup.POST("/contact", CreateContact)
 
 	router.NoRoute(func(c *gin.Context) {
