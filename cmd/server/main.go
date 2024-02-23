@@ -1,7 +1,7 @@
 package main
 
 import (
-	"app/internal/routes"
+	"app/internal/handlers"
 	"app/internal/templates/pages"
 	"app/internal/utils"
 
@@ -19,7 +19,7 @@ func main() {
 		templ.Handler(pages.HomePage("Home")).Component.Render(c, c.Writer)
 	})
 
-	routes.Init(router)
+	handlers.Init(router)
 
 	router.Run()
 }
