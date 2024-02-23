@@ -4,30 +4,37 @@ import "app/internal/templates/components"
 
 templ ContactForm() {
 	<form
+		class="flex flex-col space-y-4 w-full max-w-md"
 		id="contact-form"
 		hx-post="/contact"
 		hx-swap="none"
 		hx-on::after-request="this.reset()"
 	>
+		<div class="flex flex-wrap space-x-4 w-full">
+			<input
+				class="flex-1 rounded"
+				type="text"
+				name="firstName"
+				placeholder="Enter your first name"
+				required
+			/>
+			<input
+				class="flex-1 rounded"
+				type="text"
+				name="lastName"
+				placeholder="Enter your last name"
+				required
+			/>
+		</div>
 		<input
-			type="text"
-			name="firstName"
-			placeholder="Enter your first name"
-			required
-		/>
-		<input
-			type="text"
-			name="lastName"
-			placeholder="Enter your last name"
-			required
-		/>
-		<input
+			class="rounded"
 			type="email"
 			name="email"
 			placeholder="Enter your email"
 			required
 		/>
 		<textarea
+			class="rounded"
 			name="message"
 			placeholder="Enter your message"
 			required
