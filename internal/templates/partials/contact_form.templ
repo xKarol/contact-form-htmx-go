@@ -6,7 +6,7 @@ templ ContactForm() {
 	<form
 		class="flex flex-col space-y-4 w-full max-w-md"
 		id="contact-form"
-		hx-post="/contact"
+		hx-post="/api/contact"
 		hx-swap="innerHTML"
 		hx-target="#request-alert"
 		hx-on::after-request="this.reset()"

@@ -14,12 +14,14 @@ func Init(router *gin.Engine) {
 		templ.Handler(pages.HomePage("Home")).Component.Render(c, c.Writer)
 	})
 
-	router.POST("/health-check", func(c *gin.Context) {
+	apiGroup := router.Group("/api")
+
+	apiGroup.POST("/health-check", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "OK",
 		})
 	})
-	router.POST("/contact", CreateContact)
+	apiGroup.POST("/contact", CreateContact)
 
 	router.NoRoute(func(c *gin.Context) {
 		templ.Handler(pages.ErrorPage("404", "Not found")).Component.Render(c, c.Writer)
