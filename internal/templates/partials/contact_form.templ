@@ -1,5 +1,7 @@
 package partials
 
+import "app/internal/templates/components"
+
 templ ContactForm() {
 	<form
 		id="contact-form"
@@ -30,9 +32,9 @@ templ ContactForm() {
 			placeholder="Enter your message"
 			required
 		></textarea>
-		<button type="submit">
-			<span>Submit</span>
-			<span class="htmx-indicator">...</span>
-		</button>
+		@components.Button() {
+			<span class="htmx-indicator loading loading-spinner"></span>
+			Submit
+		}
 	</form>
 }
