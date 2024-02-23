@@ -3,7 +3,6 @@ package handlers
 import (
 	"app/internal/templates/components"
 	"bytes"
-	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -25,19 +24,11 @@ type Contact struct {
 }
 
 func CreateContact(c *gin.Context) {
-
 	var form Contact
 	if err := c.ShouldBind(&form); err != nil {
 		templ.Handler(components.Alert("error", "Validation Error:"+err.Error())).Component.Render(c, c.Writer)
 		return
 	}
-
-	firstName := c.Request.FormValue("firstName")
-	lastName := c.Request.FormValue("lastName")
-	email := c.Request.FormValue("email")
-	message := c.Request.FormValue("message")
-
-	fmt.Println(message)
 
 	dir, _ := os.Getwd()
 	templatePath := path.Join(dir, "/internal/templates/contact-confirm.html")
@@ -50,8 +41,8 @@ func CreateContact(c *gin.Context) {
 
 	var emailBodyBuffer bytes.Buffer
 	if err2 := emailTemplate.Execute(&emailBodyBuffer, map[string]string{
-		"firstName": firstName,
-		"lastName":  lastName,
+		"firstName": form.FirstName,
+		"lastName":  form.LastName,
 	}); err2 != nil {
 		log.Println("Error executing email template:", err2)
 		templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
@@ -66,7 +57,7 @@ func CreateContact(c *gin.Context) {
 	from := mail.NewEmail("Example User", "test@example.com")
 	subject := "[Company Name] Your Contact Submission was Received"
 	htmlContent := emailBodyBuffer.String()
-	to := mail.NewEmail(firstName+" "+lastName, email)
+	to := mail.NewEmail(form.FirstName+" "+form.LastName, form.Email)
 	content, _ := extractTextFromHTML(htmlContent)
 	sendMail := mail.NewSingleEmail(from, subject, to, content, htmlContent)
 	_, err := client.Send(sendMail)
