@@ -32,7 +32,7 @@ func Init(router *gin.Engine) {
 		fmt.Println(message)
 
 		dir, _ := os.Getwd()
-		templatePath := path.Join(dir, "/templates/contact-confirm.html")
+		templatePath := path.Join(dir, "/internal/templates/contact-confirm.html")
 		emailTemplate, err1 := template.ParseFiles(templatePath)
 		if err1 != nil {
 			log.Println("Error parsing email template:", err1)

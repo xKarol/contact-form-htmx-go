@@ -1,9 +1,9 @@
 package main
 
 import (
-	"app/routes"
-	"app/templates/pages"
-	"app/utils"
+	"app/internal/routes"
+	"app/internal/templates/pages"
+	"app/internal/utils"
 
 	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
