@@ -18,6 +18,13 @@ import (
 	"golang.org/x/net/html"
 )
 
+type Contact struct {
+	FirstName string `form:"firstName" json:"firstName" binding:"required,max=30"`
+	LastName  string `form:"lastName" json:"lastName" binding:"required,max=30"`
+	Email     string `form:"email" json:"email" binding:"required,email"`
+	Message   string `form:"message" json:"message" binding:"required,min=5,max=500"`
+}
+
 func Init(router *gin.Engine) {
 	router.POST("/health-check", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -25,6 +32,12 @@ func Init(router *gin.Engine) {
 		})
 	})
 	router.POST("/contact", func(c *gin.Context) {
+		var form Contact
+		if err := c.ShouldBind(&form); err != nil {
+			templ.Handler(components.Alert("error", "Validation Error:"+err.Error())).Component.Render(c, c.Writer)
+			return
+		}
+
 		firstName := c.Request.FormValue("firstName")
 		lastName := c.Request.FormValue("lastName")
 		email := c.Request.FormValue("email")
