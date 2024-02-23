@@ -17,3 +17,6 @@
 .env
 
 tmp/
+
+#templ files
+*_templ.go

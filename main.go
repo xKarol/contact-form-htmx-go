@@ -2,21 +2,19 @@ package main
 
 import (
 	"app/routes"
+	"app/templates/pages"
 	"app/utils"
-	"net/http"
 
+	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	utils.LoadEnv()
 	router := gin.Default()
-	router.LoadHTMLFiles("index.html")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"title": "Main website",
-		})
+		templ.Handler(pages.HomePage("Home")).Component.Render(c, c.Writer)
 	})
 
 	routes.Init(router)

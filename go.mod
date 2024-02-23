@@ -6,6 +6,7 @@ require github.com/joho/godotenv v1.5.1
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
+	github.com/a-h/templ v0.2.543 // indirect
 	github.com/bep/godartsass v1.2.0 // indirect
 	github.com/bep/godartsass/v2 v2.0.0 // indirect
 	github.com/bep/golibsass v1.1.1 // indirect

@@ -1,0 +1,12 @@
+package pages
+
+import (
+	"app/templates/layouts"
+	"app/templates/partials"
+)
+
+templ HomePage(title string) {
+	@layouts.MainLayout(title) {
+		@partials.ContactForm()
+	}
+}
