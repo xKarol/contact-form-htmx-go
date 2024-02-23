@@ -20,3 +20,10 @@ tmp/
 
 #templ files
 *_templ.go
+*_templ.txt
+
+#node modules
+node_modules/
+
+#build files
+dist/

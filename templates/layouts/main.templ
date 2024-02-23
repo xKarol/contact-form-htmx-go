@@ -12,7 +12,7 @@ templ MainLayout(title string) {
 			<meta name="revisit-after" content="7 days"/>
 			<meta name="language" content="English"/>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-			<link rel="stylesheet" href="/dist/styles.css"/>
+			<link rel="stylesheet" href="/static/styles.css"/>
 			<style>
                 .htmx-indicator {
                     display: none;
@@ -26,7 +26,6 @@ templ MainLayout(title string) {
             </style>
 		</head>
 		<body>
-			<h1>Hello World!</h1>
 			{ children... }
 		</body>
 	</html>

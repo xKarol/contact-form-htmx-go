@@ -13,6 +13,8 @@ func main() {
 	utils.LoadEnv()
 	router := gin.Default()
 
+	router.Static("/static", "./dist")
+
 	router.GET("/", func(c *gin.Context) {
 		templ.Handler(pages.HomePage("Home")).Component.Render(c, c.Writer)
 	})
