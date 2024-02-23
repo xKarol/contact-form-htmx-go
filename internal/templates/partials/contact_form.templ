@@ -7,9 +7,13 @@ templ ContactForm() {
 		class="flex flex-col space-y-4 w-full max-w-md"
 		id="contact-form"
 		hx-post="/contact"
-		hx-swap="none"
+		hx-swap="innerHTML"
+		hx-target="#request-alert"
 		hx-on::after-request="this.reset()"
 	>
+		<div id="request-alert">
+			// alerts goes here
+		</div>
 		<div class="flex flex-wrap space-x-4 w-full">
 			<input
 				class="flex-1 rounded"

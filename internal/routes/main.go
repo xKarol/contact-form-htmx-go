@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"app/internal/templates/components"
 	"bytes"
 	"fmt"
 	"html/template"
@@ -10,6 +11,7 @@ import (
 	"path"
 	"strings"
 
+	"github.com/a-h/templ"
 	"github.com/gin-gonic/gin"
 	"github.com/sendgrid/sendgrid-go"
 	"github.com/sendgrid/sendgrid-go/helpers/mail"
@@ -23,7 +25,6 @@ func Init(router *gin.Engine) {
 		})
 	})
 	router.POST("/contact", func(c *gin.Context) {
-
 		firstName := c.Request.FormValue("firstName")
 		lastName := c.Request.FormValue("lastName")
 		email := c.Request.FormValue("email")
@@ -36,7 +37,7 @@ func Init(router *gin.Engine) {
 		emailTemplate, err1 := template.ParseFiles(templatePath)
 		if err1 != nil {
 			log.Println("Error parsing email template:", err1)
-			c.Status(http.StatusInternalServerError)
+			templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
 			return
 		}
 
@@ -46,7 +47,7 @@ func Init(router *gin.Engine) {
 			"lastName":  lastName,
 		}); err2 != nil {
 			log.Println("Error executing email template:", err2)
-			c.Status(http.StatusInternalServerError)
+			templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
 			return
 		}
 
@@ -64,9 +65,10 @@ func Init(router *gin.Engine) {
 		_, err := client.Send(sendMail)
 		if err != nil {
 			log.Println("err:", err)
+			templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
+			return
 		}
-
-		c.Status(http.StatusOK)
+		templ.Handler(components.Alert("info", "Email has been sent.")).Component.Render(c, c.Writer)
 	})
 }
 
