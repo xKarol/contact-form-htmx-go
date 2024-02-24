@@ -2,11 +2,10 @@ package handlers
 
 import (
 	"app/internal/templates/components"
-	"bytes"
-	"html/template"
+	"app/internal/templates/mails"
+	"fmt"
 	"log"
 	"os"
-	"path"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -30,25 +29,6 @@ func CreateContact(c *gin.Context) {
 		return
 	}
 
-	dir, _ := os.Getwd()
-	templatePath := path.Join(dir, "/internal/templates/contact-confirm.html")
-	emailTemplate, err1 := template.ParseFiles(templatePath)
-	if err1 != nil {
-		log.Println("Error parsing email template:", err1)
-		templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
-		return
-	}
-
-	var emailBodyBuffer bytes.Buffer
-	if err2 := emailTemplate.Execute(&emailBodyBuffer, map[string]string{
-		"firstName": form.FirstName,
-		"lastName":  form.LastName,
-	}); err2 != nil {
-		log.Println("Error executing email template:", err2)
-		templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
-		return
-	}
-
 	client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
 	if gin.Mode() != "release" {
 		client.BaseURL = "http://127.0.0.1:3030/v3/mail/send"
@@ -56,13 +36,23 @@ func CreateContact(c *gin.Context) {
 
 	from := mail.NewEmail("Example User", "test@example.com")
 	subject := "[Company Name] Your Contact Submission was Received"
-	htmlContent := emailBodyBuffer.String()
 	to := mail.NewEmail(form.FirstName+" "+form.LastName, form.Email)
-	content, _ := extractTextFromHTML(htmlContent)
-	sendMail := mail.NewSingleEmail(from, subject, to, content, htmlContent)
-	_, err := client.Send(sendMail)
+
+	templContent, err := templ.ToGoHTML(c, mails.ContactConfirm(form.FirstName, form.LastName))
 	if err != nil {
 		log.Println("err:", err)
+
+		templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
+		return
+	}
+
+	htmlContent := fmt.Sprintf("%s", templContent)
+	content, _ := extractTextFromHTML(htmlContent)
+
+	sendMail := mail.NewSingleEmail(from, subject, to, content, htmlContent)
+	_, err1 := client.Send(sendMail)
+	if err1 != nil {
+		log.Println("err:", err1)
 		templ.Handler(components.Alert("error", "Something went wrong...")).Component.Render(c, c.Writer)
 		return
 	}
@@ -88,6 +78,5 @@ func extractTextFromHTML(htmlContent string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
 	return extractText(doc), nil
 }
