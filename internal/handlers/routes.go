@@ -14,7 +14,7 @@ func Init(router *gin.Engine) {
 	})
 
 	apiGroup := router.Group("/api")
-	apiGroup.POST("/health-check", HealthCheck)
+	apiGroup.GET("/health-check", HealthCheck)
 	apiGroup.POST("/contact", CreateContact)
 
 	router.NoRoute(func(c *gin.Context) {
